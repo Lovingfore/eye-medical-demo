@@ -1,0 +1,27 @@
+{% load static %}
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}IDRiD 眼底影像工作台{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'predictor/styles.css' %}">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="返回首页">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span><strong>RetinaLab</strong><small>眼底影像工作台</small></span>
+      </a>
+      <nav class="topnav" aria-label="主导航">
+        <a class="{% if request.path == '/' %}is-active{% endif %}" href="/">影像检查</a>
+        <a class="{% if '/history' in request.path %}is-active{% endif %}" href="/history/">检查记录</a>
+      </nav>
+      <div class="model-status"><span class="status-dot"></span><span>模型已就绪</span></div>
+    </header>
+    <main class="page-wrap">{% block content %}{% endblock %}</main>
+    <footer class="footer"><span>IDRiD · 二分类研究演示</span><span>ResNet-18 · 本地推理</span></footer>
+  </div>
+</body>
+</html>

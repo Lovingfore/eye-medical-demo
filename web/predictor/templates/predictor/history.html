@@ -1,0 +1,22 @@
+{% extends "predictor/base.html" %}
+{% block title %}检查记录 · RetinaLab{% endblock %}
+{% block content %}
+<div class="history-head">
+  <section class="page-heading"><p class="eyebrow">LOCAL LOG / 03</p><h1>检查记录</h1><p>最近 20 次本地预测结果。</p></section>
+  <span class="history-count">共 {{ records|length }} 条记录</span>
+</div>
+<section class="panel table-panel">
+  {% if records %}
+  <table class="history-table">
+    <thead><tr><th>时间</th><th>图像文件</th><th>分类</th><th>置信度</th></tr></thead>
+    <tbody>
+      {% for item in records %}
+      <tr><td class="date-cell">{{ item.created_at|date:"Y-m-d H:i" }}</td><td class="image-cell">{{ item.image_name }}</td><td><span class="class-badge {% if item.class_name == 'disease' %}disease{% endif %}">{% if item.class_name == 'disease' %}糖网风险{% else %}未见明显病变{% endif %}</span></td><td class="confidence-cell"><div class="confidence-inline"><div class="meter" style="--value: {% widthratio item.confidence 1 100 %}%;"><span></span></div><strong>{% widthratio item.confidence 1 100 %}%</strong></div></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state"><div class="empty-icon" aria-hidden="true">◌</div><h2>还没有检查记录</h2><p>上传一张眼底图像后，预测结果会出现在这里。</p><a class="primary-button" href="/">开始检查 <span aria-hidden="true">→</span></a></div>
+  {% endif %}
+</section>
+{% endblock %}

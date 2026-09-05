@@ -1,0 +1,73 @@
+{% extends "predictor/base.html" %}
+{% block title %}影像检查 · RetinaLab{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <p class="eyebrow">RETINAL IMAGE SCREENING / 01</p>
+  <h1>糖尿病视网膜病变<br>影像检查</h1>
+  <p>上传一张眼底图像，使用已训练的 ResNet-18 模型完成二分类研究演示。</p>
+</section>
+
+<div class="workspace-grid">
+  <section class="panel upload-panel">
+    <div class="panel-head">
+      <div><h2 class="panel-title">上传检查图像</h2><p class="panel-note">支持 JPG、JPEG、PNG，单张不超过 8 MB</p></div>
+      <span class="chip">RGB · 224 × 224</span>
+    </div>
+    {% if error %}<div class="error-box" role="alert">{{ error }}</div>{% endif %}
+    <form method="post" enctype="multipart/form-data" id="upload-form">
+      {% csrf_token %}
+      <label class="dropzone" id="dropzone" for="image-input">
+        <input id="image-input" type="file" name="image" accept=".jpg,.jpeg,.png" required>
+        <span class="drop-content">
+          <span class="upload-glyph" aria-hidden="true">↑</span>
+          <h2>选择眼底图像</h2>
+          <p>点击选择文件，或将图像拖到这里进行预览</p>
+          <span class="browse-button">浏览文件</span>
+        </span>
+        <span class="file-preview" aria-live="polite">
+          <span class="preview-frame"><img id="preview-image" alt="待检查眼底图像预览"></span>
+          <span class="file-meta">
+            <span class="meta-label">已选择文件</span><strong class="file-name" id="file-name">-</strong>
+            <span class="meta-label">文件类型</span><span class="file-type" id="file-type">-</span>
+            <button class="ghost-button" type="button" id="clear-file">重新选择</button>
+          </span>
+        </span>
+      </label>
+      <div class="form-actions"><span class="hint">结果仅用于课程项目展示</span><button class="primary-button" type="submit">开始预测 <span aria-hidden="true">→</span></button></div>
+    </form>
+  </section>
+
+  <aside class="panel info-panel">
+    <div class="panel-head"><div><h2 class="panel-title">当前检查配置</h2><p class="panel-note">本地模型推理环境</p></div></div>
+    <div class="info-stack">
+      <div class="info-block"><p class="info-label">MODEL</p><div class="model-line"><strong>ResNet-18</strong><span>READY</span></div><p class="info-copy">ImageNet 迁移学习 · 二分类输出</p></div>
+      <div class="info-block"><p class="info-label">DATASET</p><p class="info-value">IDRiD Disease Grading</p><p class="info-copy">正常 / 糖尿病视网膜病变</p></div>
+      <div class="info-block"><p class="info-label">OUTPUT</p><p class="info-value">类别 · 置信度 · 概率</p><p class="info-copy">每次检查会自动保存至本地历史记录。</p></div>
+    </div>
+    <p class="disclaimer">研究演示用途。模型预测结果仅用于课程项目展示，不构成医学诊断。</p>
+  </aside>
+</div>
+
+<script>
+  (() => {
+    const input = document.getElementById('image-input');
+    const zone = document.getElementById('dropzone');
+    const preview = document.getElementById('preview-image');
+    const name = document.getElementById('file-name');
+    const type = document.getElementById('file-type');
+    const clear = document.getElementById('clear-file');
+    let objectUrl = null;
+    const showFile = (file) => {
+      if (!file) return;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      objectUrl = URL.createObjectURL(file); preview.src = objectUrl; name.textContent = file.name;
+      type.textContent = `${file.type || 'image'} · ${(file.size / 1024 / 1024).toFixed(2)} MB`; zone.classList.add('has-file');
+    };
+    input.addEventListener('change', () => showFile(input.files[0]));
+    ['dragenter', 'dragover'].forEach((eventName) => zone.addEventListener(eventName, (event) => { event.preventDefault(); zone.classList.add('is-dragging'); }));
+    ['dragleave', 'drop'].forEach((eventName) => zone.addEventListener(eventName, (event) => { event.preventDefault(); zone.classList.remove('is-dragging'); }));
+    zone.addEventListener('drop', (event) => { const file = event.dataTransfer.files[0]; if (file) { input.files = event.dataTransfer.files; showFile(file); } });
+    clear.addEventListener('click', (event) => { event.preventDefault(); event.stopPropagation(); input.value = ''; zone.classList.remove('has-file'); preview.removeAttribute('src'); });
+  })();
+</script>
+{% endblock %}
