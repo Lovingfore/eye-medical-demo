@@ -18,6 +18,8 @@ web/demo.sqlite3
 web/staticfiles/
 artifacts/uploads/
 artifacts/**/uploads/
+# Keep the large full-precision checkpoint local; the deployable FP16 copy is tracked.
+artifacts/idrid_resnet_best.pt
 outputs/
 
 # IDE and OS files
