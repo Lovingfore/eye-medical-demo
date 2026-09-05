@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: eye-medical-demo
+    name: idrid-diabetic-retinopathy-classifier
     runtime: python
     plan: free
     buildCommand: pip install -r requirements-render.txt && python web/manage.py migrate --noinput && python web/manage.py collectstatic --noinput
