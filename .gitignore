@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+env/
+.env
+
+# Local datasets and generated split files
+data/
+*.parquet
+*.zip
+
+# Local web state and generated assets
+web/demo.sqlite3
+web/staticfiles/
+artifacts/uploads/
+artifacts/**/uploads/
+outputs/
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

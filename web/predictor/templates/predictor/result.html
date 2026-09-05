@@ -1,0 +1,27 @@
+{% extends "predictor/base.html" %}
+{% block title %}检查结果 · RetinaLab{% endblock %}
+{% block content %}
+<div class="result-layout">
+  <section class="panel result-hero">
+    <p class="eyebrow">ANALYSIS COMPLETE / 02</p><h1>检查结果</h1>
+    <p class="file-caption">图像文件 · {{ record.image_name }}</p>
+    <div class="classification {% if result.class_name == 'disease' %}danger{% endif %}">
+      <span class="classification-icon" aria-hidden="true">{% if result.class_name == 'disease' %}!{% else %}✓{% endif %}</span>
+      <span><p>模型分类</p><strong>{% if result.class_name == 'disease' %}糖尿病视网膜病变{% else %}未见明显病变{% endif %}</strong></span>
+    </div>
+    <div class="result-actions"><a class="primary-button" href="/">再次检查 <span aria-hidden="true">→</span></a><a class="ghost-button" href="/history/">查看记录</a></div>
+  </section>
+  <section class="panel stats-panel">
+    <h2>预测详情</h2>
+    <div class="confidence-row"><span>最高置信度</span><strong>{% widthratio result.confidence 1 100 %}%</strong></div>
+    <div class="meter" aria-label="最高置信度 {% widthratio result.confidence 1 100 %}%" style="--value: {% widthratio result.confidence 1 100 %}%;"><span></span></div>
+    <div class="probability-list">
+      {% for name, value in result.probabilities.items %}
+      <div><div class="probability-head"><span>{% if name == 'disease' %}糖尿病视网膜病变{% else %}未见明显病变{% endif %}</span><strong>{% widthratio value 1 100 %}%</strong></div><div class="meter" style="--value: {% widthratio value 1 100 %}%;"><span></span></div></div>
+      {% endfor %}
+    </div>
+    <div class="metric-grid"><div class="metric"><span>推理耗时</span><strong>{{ result.inference_ms|floatformat:0 }} ms</strong></div><div class="metric"><span>模型版本</span><strong>ResNet-18</strong></div></div>
+  </section>
+</div>
+<p class="disclaimer" style="margin-top: 20px;">研究演示用途。此结果不构成医学诊断，请结合专业医生意见进行判断。</p>
+{% endblock %}

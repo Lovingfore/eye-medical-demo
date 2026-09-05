@@ -1,0 +1,1238 @@
+[
+  {
+    "image_path": "images/test/IDRiD_029.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.6984328627586365,
+    "probabilities": {
+      "normal": 0.6984328627586365,
+      "disease": 0.3015671372413635
+    },
+    "inference_ms": 3124.533
+  },
+  {
+    "image_path": "images/test/IDRiD_030.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.8871880769729614,
+    "probabilities": {
+      "normal": 0.8871880769729614,
+      "disease": 0.11281196027994156
+    },
+    "inference_ms": 83.252
+  },
+  {
+    "image_path": "images/test/IDRiD_037.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.9658606648445129,
+    "probabilities": {
+      "normal": 0.9658606648445129,
+      "disease": 0.03413931280374527
+    },
+    "inference_ms": 79.249
+  },
+  {
+    "image_path": "images/test/IDRiD_038.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.5425981283187866,
+    "probabilities": {
+      "normal": 0.5425981283187866,
+      "disease": 0.45740190148353577
+    },
+    "inference_ms": 82.12
+  },
+  {
+    "image_path": "images/test/IDRiD_039.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.946760892868042,
+    "probabilities": {
+      "normal": 0.946760892868042,
+      "disease": 0.053239163011312485
+    },
+    "inference_ms": 84.59
+  },
+  {
+    "image_path": "images/test/IDRiD_041.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.9905709028244019,
+    "probabilities": {
+      "normal": 0.9905709028244019,
+      "disease": 0.009429107420146465
+    },
+    "inference_ms": 82.365
+  },
+  {
+    "image_path": "images/test/IDRiD_043.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.6657517552375793,
+    "probabilities": {
+      "normal": 0.6657517552375793,
+      "disease": 0.3342481851577759
+    },
+    "inference_ms": 83.576
+  },
+  {
+    "image_path": "images/test/IDRiD_044.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.9794241189956665,
+    "probabilities": {
+      "normal": 0.9794241189956665,
+      "disease": 0.020575905218720436
+    },
+    "inference_ms": 85.405
+  },
+  {
+    "image_path": "images/test/IDRiD_045.jpg",
+    "true_label": 0,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.8550442457199097,
+    "probabilities": {
+      "normal": 0.1449557989835739,
+      "disease": 0.8550442457199097
+    },
+    "inference_ms": 82.306
+  },
+  {
+    "image_path": "images/test/IDRiD_047.jpg",
+    "true_label": 0,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.7590959668159485,
+    "probabilities": {
+      "normal": 0.24090400338172913,
+      "disease": 0.7590959668159485
+    },
+    "inference_ms": 84.521
+  },
+  {
+    "image_path": "images/test/IDRiD_050.jpg",
+    "true_label": 0,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.8040303587913513,
+    "probabilities": {
+      "normal": 0.19596964120864868,
+      "disease": 0.8040303587913513
+    },
+    "inference_ms": 86.49
+  },
+  {
+    "image_path": "images/test/IDRiD_052.jpg",
+    "true_label": 0,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.7206568121910095,
+    "probabilities": {
+      "normal": 0.2793431878089905,
+      "disease": 0.7206568121910095
+    },
+    "inference_ms": 82.492
+  },
+  {
+    "image_path": "images/test/IDRiD_054.jpg",
+    "true_label": 0,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.6554104089736938,
+    "probabilities": {
+      "normal": 0.34458962082862854,
+      "disease": 0.6554104089736938
+    },
+    "inference_ms": 79.032
+  },
+  {
+    "image_path": "images/test/IDRiD_055.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.5211849212646484,
+    "probabilities": {
+      "normal": 0.5211849212646484,
+      "disease": 0.47881507873535156
+    },
+    "inference_ms": 81.871
+  },
+  {
+    "image_path": "images/test/IDRiD_056.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.7129056453704834,
+    "probabilities": {
+      "normal": 0.7129056453704834,
+      "disease": 0.2870944142341614
+    },
+    "inference_ms": 81.517
+  },
+  {
+    "image_path": "images/test/IDRiD_058.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.6900981068611145,
+    "probabilities": {
+      "normal": 0.6900981068611145,
+      "disease": 0.3099019527435303
+    },
+    "inference_ms": 85.707
+  },
+  {
+    "image_path": "images/test/IDRiD_068.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.630976140499115,
+    "probabilities": {
+      "normal": 0.630976140499115,
+      "disease": 0.3690238893032074
+    },
+    "inference_ms": 81.703
+  },
+  {
+    "image_path": "images/test/IDRiD_069.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.6239520907402039,
+    "probabilities": {
+      "normal": 0.6239520907402039,
+      "disease": 0.37604790925979614
+    },
+    "inference_ms": 82.076
+  },
+  {
+    "image_path": "images/test/IDRiD_070.jpg",
+    "true_label": 0,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.7221629023551941,
+    "probabilities": {
+      "normal": 0.2778371274471283,
+      "disease": 0.7221629023551941
+    },
+    "inference_ms": 80.835
+  },
+  {
+    "image_path": "images/test/IDRiD_071.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.9462547302246094,
+    "probabilities": {
+      "normal": 0.9462547302246094,
+      "disease": 0.05374527350068092
+    },
+    "inference_ms": 79.957
+  },
+  {
+    "image_path": "images/test/IDRiD_075.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.6070390343666077,
+    "probabilities": {
+      "normal": 0.6070390343666077,
+      "disease": 0.39296096563339233
+    },
+    "inference_ms": 82.208
+  },
+  {
+    "image_path": "images/test/IDRiD_077.jpg",
+    "true_label": 0,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.6384866237640381,
+    "probabilities": {
+      "normal": 0.3615134358406067,
+      "disease": 0.6384866237640381
+    },
+    "inference_ms": 85.12
+  },
+  {
+    "image_path": "images/test/IDRiD_078.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.6840278506278992,
+    "probabilities": {
+      "normal": 0.6840278506278992,
+      "disease": 0.31597208976745605
+    },
+    "inference_ms": 90.142
+  },
+  {
+    "image_path": "images/test/IDRiD_080.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.999708354473114,
+    "probabilities": {
+      "normal": 0.999708354473114,
+      "disease": 0.00029158510733395815
+    },
+    "inference_ms": 87.178
+  },
+  {
+    "image_path": "images/test/IDRiD_090.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.9984768033027649,
+    "probabilities": {
+      "normal": 0.9984768033027649,
+      "disease": 0.0015231444267556071
+    },
+    "inference_ms": 97.305
+  },
+  {
+    "image_path": "images/test/IDRiD_092.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.634878933429718,
+    "probabilities": {
+      "normal": 0.634878933429718,
+      "disease": 0.36512112617492676
+    },
+    "inference_ms": 93.219
+  },
+  {
+    "image_path": "images/test/IDRiD_093.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.5892473459243774,
+    "probabilities": {
+      "normal": 0.5892473459243774,
+      "disease": 0.41075265407562256
+    },
+    "inference_ms": 90.199
+  },
+  {
+    "image_path": "images/test/IDRiD_094.jpg",
+    "true_label": 0,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9043560028076172,
+    "probabilities": {
+      "normal": 0.09564399719238281,
+      "disease": 0.9043560028076172
+    },
+    "inference_ms": 99.887
+  },
+  {
+    "image_path": "images/test/IDRiD_095.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.5271496176719666,
+    "probabilities": {
+      "normal": 0.5271496176719666,
+      "disease": 0.47285038232803345
+    },
+    "inference_ms": 97.452
+  },
+  {
+    "image_path": "images/test/IDRiD_096.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.5188440680503845,
+    "probabilities": {
+      "normal": 0.5188440680503845,
+      "disease": 0.4811559021472931
+    },
+    "inference_ms": 98.539
+  },
+  {
+    "image_path": "images/test/IDRiD_097.jpg",
+    "true_label": 0,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.6401242017745972,
+    "probabilities": {
+      "normal": 0.35987579822540283,
+      "disease": 0.6401242017745972
+    },
+    "inference_ms": 92.457
+  },
+  {
+    "image_path": "images/test/IDRiD_098.jpg",
+    "true_label": 0,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.8244129419326782,
+    "probabilities": {
+      "normal": 0.17558704316616058,
+      "disease": 0.8244129419326782
+    },
+    "inference_ms": 90.874
+  },
+  {
+    "image_path": "images/test/IDRiD_099.jpg",
+    "true_label": 0,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.5905835032463074,
+    "probabilities": {
+      "normal": 0.4094164967536926,
+      "disease": 0.5905835032463074
+    },
+    "inference_ms": 87.177
+  },
+  {
+    "image_path": "images/test/IDRiD_103.jpg",
+    "true_label": 0,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.836876392364502,
+    "probabilities": {
+      "normal": 0.836876392364502,
+      "disease": 0.16312365233898163
+    },
+    "inference_ms": 97.717
+  },
+  {
+    "image_path": "images/test/IDRiD_063.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.9946733117103577,
+    "probabilities": {
+      "normal": 0.9946733117103577,
+      "disease": 0.005326748359948397
+    },
+    "inference_ms": 85.007
+  },
+  {
+    "image_path": "images/test/IDRiD_073.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.8258265852928162,
+    "probabilities": {
+      "normal": 0.8258265852928162,
+      "disease": 0.17417342960834503
+    },
+    "inference_ms": 85.177
+  },
+  {
+    "image_path": "images/test/IDRiD_074.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.6698364615440369,
+    "probabilities": {
+      "normal": 0.6698364615440369,
+      "disease": 0.33016350865364075
+    },
+    "inference_ms": 86.697
+  },
+  {
+    "image_path": "images/test/IDRiD_085.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.6362912654876709,
+    "probabilities": {
+      "normal": 0.3637087643146515,
+      "disease": 0.6362912654876709
+    },
+    "inference_ms": 86.806
+  },
+  {
+    "image_path": "images/test/IDRiD_101.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.614593505859375,
+    "probabilities": {
+      "normal": 0.614593505859375,
+      "disease": 0.3854064643383026
+    },
+    "inference_ms": 92.165
+  },
+  {
+    "image_path": "images/test/IDRiD_008.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9875010251998901,
+    "probabilities": {
+      "normal": 0.012499001808464527,
+      "disease": 0.9875010251998901
+    },
+    "inference_ms": 81.228
+  },
+  {
+    "image_path": "images/test/IDRiD_009.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9541329145431519,
+    "probabilities": {
+      "normal": 0.04586710035800934,
+      "disease": 0.9541329145431519
+    },
+    "inference_ms": 79.152
+  },
+  {
+    "image_path": "images/test/IDRiD_010.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.7404217720031738,
+    "probabilities": {
+      "normal": 0.2595781981945038,
+      "disease": 0.7404217720031738
+    },
+    "inference_ms": 89.137
+  },
+  {
+    "image_path": "images/test/IDRiD_011.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9452322125434875,
+    "probabilities": {
+      "normal": 0.054767753928899765,
+      "disease": 0.9452322125434875
+    },
+    "inference_ms": 96.331
+  },
+  {
+    "image_path": "images/test/IDRiD_012.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.5155395269393921,
+    "probabilities": {
+      "normal": 0.4844604432582855,
+      "disease": 0.5155395269393921
+    },
+    "inference_ms": 95.616
+  },
+  {
+    "image_path": "images/test/IDRiD_015.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9676721096038818,
+    "probabilities": {
+      "normal": 0.032327909022569656,
+      "disease": 0.9676721096038818
+    },
+    "inference_ms": 92.105
+  },
+  {
+    "image_path": "images/test/IDRiD_017.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9432412981987,
+    "probabilities": {
+      "normal": 0.05675865709781647,
+      "disease": 0.9432412981987
+    },
+    "inference_ms": 92.355
+  },
+  {
+    "image_path": "images/test/IDRiD_019.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9074651598930359,
+    "probabilities": {
+      "normal": 0.09253482520580292,
+      "disease": 0.9074651598930359
+    },
+    "inference_ms": 96.796
+  },
+  {
+    "image_path": "images/test/IDRiD_020.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.7171707153320312,
+    "probabilities": {
+      "normal": 0.28282931447029114,
+      "disease": 0.7171707153320312
+    },
+    "inference_ms": 88.96
+  },
+  {
+    "image_path": "images/test/IDRiD_023.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9214819669723511,
+    "probabilities": {
+      "normal": 0.07851800322532654,
+      "disease": 0.9214819669723511
+    },
+    "inference_ms": 90.995
+  },
+  {
+    "image_path": "images/test/IDRiD_024.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.6885077953338623,
+    "probabilities": {
+      "normal": 0.6885077953338623,
+      "disease": 0.3114922046661377
+    },
+    "inference_ms": 113.293
+  },
+  {
+    "image_path": "images/test/IDRiD_028.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.6973888278007507,
+    "probabilities": {
+      "normal": 0.3026111423969269,
+      "disease": 0.6973888278007507
+    },
+    "inference_ms": 105.271
+  },
+  {
+    "image_path": "images/test/IDRiD_033.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9741358160972595,
+    "probabilities": {
+      "normal": 0.02586415782570839,
+      "disease": 0.9741358160972595
+    },
+    "inference_ms": 100.638
+  },
+  {
+    "image_path": "images/test/IDRiD_046.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.8017158508300781,
+    "probabilities": {
+      "normal": 0.1982840895652771,
+      "disease": 0.8017158508300781
+    },
+    "inference_ms": 91.069
+  },
+  {
+    "image_path": "images/test/IDRiD_049.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.953942596912384,
+    "probabilities": {
+      "normal": 0.046057380735874176,
+      "disease": 0.953942596912384
+    },
+    "inference_ms": 97.789
+  },
+  {
+    "image_path": "images/test/IDRiD_051.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9072135090827942,
+    "probabilities": {
+      "normal": 0.09278642386198044,
+      "disease": 0.9072135090827942
+    },
+    "inference_ms": 99.171
+  },
+  {
+    "image_path": "images/test/IDRiD_059.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9411780834197998,
+    "probabilities": {
+      "normal": 0.05882194638252258,
+      "disease": 0.9411780834197998
+    },
+    "inference_ms": 94.213
+  },
+  {
+    "image_path": "images/test/IDRiD_065.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.8162299394607544,
+    "probabilities": {
+      "normal": 0.183770090341568,
+      "disease": 0.8162299394607544
+    },
+    "inference_ms": 88.905
+  },
+  {
+    "image_path": "images/test/IDRiD_067.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.6882389783859253,
+    "probabilities": {
+      "normal": 0.3117610216140747,
+      "disease": 0.6882389783859253
+    },
+    "inference_ms": 88.521
+  },
+  {
+    "image_path": "images/test/IDRiD_072.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9339472055435181,
+    "probabilities": {
+      "normal": 0.06605283170938492,
+      "disease": 0.9339472055435181
+    },
+    "inference_ms": 88.546
+  },
+  {
+    "image_path": "images/test/IDRiD_076.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.7468591332435608,
+    "probabilities": {
+      "normal": 0.7468591332435608,
+      "disease": 0.2531408965587616
+    },
+    "inference_ms": 89.617
+  },
+  {
+    "image_path": "images/test/IDRiD_079.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.9150678515434265,
+    "probabilities": {
+      "normal": 0.9150678515434265,
+      "disease": 0.08493217080831528
+    },
+    "inference_ms": 94.435
+  },
+  {
+    "image_path": "images/test/IDRiD_081.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.5155465602874756,
+    "probabilities": {
+      "normal": 0.48445338010787964,
+      "disease": 0.5155465602874756
+    },
+    "inference_ms": 89.413
+  },
+  {
+    "image_path": "images/test/IDRiD_082.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.7932125926017761,
+    "probabilities": {
+      "normal": 0.7932125926017761,
+      "disease": 0.20678742229938507
+    },
+    "inference_ms": 88.816
+  },
+  {
+    "image_path": "images/test/IDRiD_083.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.5059801936149597,
+    "probabilities": {
+      "normal": 0.5059801936149597,
+      "disease": 0.4940197765827179
+    },
+    "inference_ms": 87.058
+  },
+  {
+    "image_path": "images/test/IDRiD_084.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.6934345364570618,
+    "probabilities": {
+      "normal": 0.6934345364570618,
+      "disease": 0.3065654933452606
+    },
+    "inference_ms": 86.53
+  },
+  {
+    "image_path": "images/test/IDRiD_086.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.898628294467926,
+    "probabilities": {
+      "normal": 0.10137172043323517,
+      "disease": 0.898628294467926
+    },
+    "inference_ms": 88.772
+  },
+  {
+    "image_path": "images/test/IDRiD_088.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9501572847366333,
+    "probabilities": {
+      "normal": 0.04984267055988312,
+      "disease": 0.9501572847366333
+    },
+    "inference_ms": 92.433
+  },
+  {
+    "image_path": "images/test/IDRiD_089.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.7277863621711731,
+    "probabilities": {
+      "normal": 0.2722136080265045,
+      "disease": 0.7277863621711731
+    },
+    "inference_ms": 91.732
+  },
+  {
+    "image_path": "images/test/IDRiD_091.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9797756671905518,
+    "probabilities": {
+      "normal": 0.02022428996860981,
+      "disease": 0.9797756671905518
+    },
+    "inference_ms": 93.917
+  },
+  {
+    "image_path": "images/test/IDRiD_100.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.5464840531349182,
+    "probabilities": {
+      "normal": 0.5464840531349182,
+      "disease": 0.4535159766674042
+    },
+    "inference_ms": 95.989
+  },
+  {
+    "image_path": "images/test/IDRiD_102.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9422955513000488,
+    "probabilities": {
+      "normal": 0.05770440027117729,
+      "disease": 0.9422955513000488
+    },
+    "inference_ms": 123.409
+  },
+  {
+    "image_path": "images/test/IDRiD_006.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9046708345413208,
+    "probabilities": {
+      "normal": 0.09532923251390457,
+      "disease": 0.9046708345413208
+    },
+    "inference_ms": 133.702
+  },
+  {
+    "image_path": "images/test/IDRiD_007.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9469374418258667,
+    "probabilities": {
+      "normal": 0.05306261405348778,
+      "disease": 0.9469374418258667
+    },
+    "inference_ms": 146.855
+  },
+  {
+    "image_path": "images/test/IDRiD_013.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9874732494354248,
+    "probabilities": {
+      "normal": 0.01252677757292986,
+      "disease": 0.9874732494354248
+    },
+    "inference_ms": 219.165
+  },
+  {
+    "image_path": "images/test/IDRiD_014.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9811680316925049,
+    "probabilities": {
+      "normal": 0.018831966444849968,
+      "disease": 0.9811680316925049
+    },
+    "inference_ms": 132.515
+  },
+  {
+    "image_path": "images/test/IDRiD_016.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9847242832183838,
+    "probabilities": {
+      "normal": 0.01527571864426136,
+      "disease": 0.9847242832183838
+    },
+    "inference_ms": 156.545
+  },
+  {
+    "image_path": "images/test/IDRiD_018.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9762903451919556,
+    "probabilities": {
+      "normal": 0.023709608241915703,
+      "disease": 0.9762903451919556
+    },
+    "inference_ms": 95.204
+  },
+  {
+    "image_path": "images/test/IDRiD_021.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9392555952072144,
+    "probabilities": {
+      "normal": 0.06074444577097893,
+      "disease": 0.9392555952072144
+    },
+    "inference_ms": 92.517
+  },
+  {
+    "image_path": "images/test/IDRiD_022.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9838566780090332,
+    "probabilities": {
+      "normal": 0.016143381595611572,
+      "disease": 0.9838566780090332
+    },
+    "inference_ms": 99.362
+  },
+  {
+    "image_path": "images/test/IDRiD_025.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.983373761177063,
+    "probabilities": {
+      "normal": 0.016626233235001564,
+      "disease": 0.983373761177063
+    },
+    "inference_ms": 93.144
+  },
+  {
+    "image_path": "images/test/IDRiD_026.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9540610909461975,
+    "probabilities": {
+      "normal": 0.04593890532851219,
+      "disease": 0.9540610909461975
+    },
+    "inference_ms": 89.379
+  },
+  {
+    "image_path": "images/test/IDRiD_027.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.8420318961143494,
+    "probabilities": {
+      "normal": 0.15796807408332825,
+      "disease": 0.8420318961143494
+    },
+    "inference_ms": 88.529
+  },
+  {
+    "image_path": "images/test/IDRiD_031.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.801041305065155,
+    "probabilities": {
+      "normal": 0.19895869493484497,
+      "disease": 0.801041305065155
+    },
+    "inference_ms": 82.82
+  },
+  {
+    "image_path": "images/test/IDRiD_034.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9291477799415588,
+    "probabilities": {
+      "normal": 0.07085224986076355,
+      "disease": 0.9291477799415588
+    },
+    "inference_ms": 86.589
+  },
+  {
+    "image_path": "images/test/IDRiD_035.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.8883512020111084,
+    "probabilities": {
+      "normal": 0.11164885014295578,
+      "disease": 0.8883512020111084
+    },
+    "inference_ms": 85.525
+  },
+  {
+    "image_path": "images/test/IDRiD_036.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9658162593841553,
+    "probabilities": {
+      "normal": 0.03418368473649025,
+      "disease": 0.9658162593841553
+    },
+    "inference_ms": 83.163
+  },
+  {
+    "image_path": "images/test/IDRiD_042.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.930669367313385,
+    "probabilities": {
+      "normal": 0.06933058053255081,
+      "disease": 0.930669367313385
+    },
+    "inference_ms": 88.074
+  },
+  {
+    "image_path": "images/test/IDRiD_060.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.574335515499115,
+    "probabilities": {
+      "normal": 0.4256645143032074,
+      "disease": 0.574335515499115
+    },
+    "inference_ms": 87.839
+  },
+  {
+    "image_path": "images/test/IDRiD_064.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.6567526459693909,
+    "probabilities": {
+      "normal": 0.6567526459693909,
+      "disease": 0.34324732422828674
+    },
+    "inference_ms": 87.586
+  },
+  {
+    "image_path": "images/test/IDRiD_066.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9727780818939209,
+    "probabilities": {
+      "normal": 0.02722187526524067,
+      "disease": 0.9727780818939209
+    },
+    "inference_ms": 87.274
+  },
+  {
+    "image_path": "images/test/IDRiD_001.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.8268822431564331,
+    "probabilities": {
+      "normal": 0.17311780154705048,
+      "disease": 0.8268822431564331
+    },
+    "inference_ms": 81.974
+  },
+  {
+    "image_path": "images/test/IDRiD_002.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.5652043223381042,
+    "probabilities": {
+      "normal": 0.43479570746421814,
+      "disease": 0.5652043223381042
+    },
+    "inference_ms": 89.132
+  },
+  {
+    "image_path": "images/test/IDRiD_003.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.5220898985862732,
+    "probabilities": {
+      "normal": 0.4779101014137268,
+      "disease": 0.5220898985862732
+    },
+    "inference_ms": 124.512
+  },
+  {
+    "image_path": "images/test/IDRiD_004.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.7261781692504883,
+    "probabilities": {
+      "normal": 0.7261781692504883,
+      "disease": 0.2738218307495117
+    },
+    "inference_ms": 87.294
+  },
+  {
+    "image_path": "images/test/IDRiD_005.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.7453649640083313,
+    "probabilities": {
+      "normal": 0.2546350061893463,
+      "disease": 0.7453649640083313
+    },
+    "inference_ms": 86.603
+  },
+  {
+    "image_path": "images/test/IDRiD_032.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9133851528167725,
+    "probabilities": {
+      "normal": 0.08661482483148575,
+      "disease": 0.9133851528167725
+    },
+    "inference_ms": 83.659
+  },
+  {
+    "image_path": "images/test/IDRiD_040.jpg",
+    "true_label": 1,
+    "label": 0,
+    "class_name": "normal",
+    "confidence": 0.6041097044944763,
+    "probabilities": {
+      "normal": 0.6041097044944763,
+      "disease": 0.3958902657032013
+    },
+    "inference_ms": 86.405
+  },
+  {
+    "image_path": "images/test/IDRiD_048.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9616835713386536,
+    "probabilities": {
+      "normal": 0.03831645846366882,
+      "disease": 0.9616835713386536
+    },
+    "inference_ms": 85.046
+  },
+  {
+    "image_path": "images/test/IDRiD_053.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9943918585777283,
+    "probabilities": {
+      "normal": 0.005608174484223127,
+      "disease": 0.9943918585777283
+    },
+    "inference_ms": 83.633
+  },
+  {
+    "image_path": "images/test/IDRiD_057.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9574279189109802,
+    "probabilities": {
+      "normal": 0.04257214069366455,
+      "disease": 0.9574279189109802
+    },
+    "inference_ms": 87.617
+  },
+  {
+    "image_path": "images/test/IDRiD_061.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9586830735206604,
+    "probabilities": {
+      "normal": 0.04131695255637169,
+      "disease": 0.9586830735206604
+    },
+    "inference_ms": 96.647
+  },
+  {
+    "image_path": "images/test/IDRiD_062.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9816972613334656,
+    "probabilities": {
+      "normal": 0.0183027945458889,
+      "disease": 0.9816972613334656
+    },
+    "inference_ms": 90.228
+  },
+  {
+    "image_path": "images/test/IDRiD_087.jpg",
+    "true_label": 1,
+    "label": 1,
+    "class_name": "disease",
+    "confidence": 0.9072758555412292,
+    "probabilities": {
+      "normal": 0.09272420406341553,
+      "disease": 0.9072758555412292
+    },
+    "inference_ms": 94.806
+  }
+]

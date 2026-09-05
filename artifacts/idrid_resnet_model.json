@@ -1,0 +1,30 @@
+{
+  "format_version": 2,
+  "backend": "pytorch",
+  "model_type": "resnet18",
+  "architecture": "resnet18",
+  "class_names": [
+    "normal",
+    "disease"
+  ],
+  "image_size": [
+    224,
+    224
+  ],
+  "normalization": {
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "checkpoint_path": "idrid_resnet_best.pt",
+  "best_epoch": 3,
+  "best_val_f1": 0.9047619047619048,
+  "warning": "Research/course project model; not for medical diagnosis."
+}
