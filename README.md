@@ -61,7 +61,7 @@ D:\python\python.exe web/manage.py runserver 127.0.0.1:8000
 
 ## 发布到 GitHub 和公网
 
-仓库不会提交 IDRiD 原始数据、parquet 文件、SQLite 数据库或用户上传图片；已训练的 ResNet-18 权重（约 45 MB）和模型配置会随代码提交，云端可直接推理。Render 使用 `requirements-render.txt` 的 CPU-only PyTorch wheel，避免安装 CUDA 运行库。
+仓库不会提交 IDRiD 原始数据、parquet 文件、SQLite 数据库或用户上传图片；压缩为 FP16 的 ResNet-18 权重（约 22 MB）和模型配置会随代码提交，云端可直接推理。Render 使用 `requirements-render.txt` 的 CPU-only PyTorch wheel，避免安装 CUDA 运行库。
 
 ### 1. 创建并推送 GitHub 仓库
 
