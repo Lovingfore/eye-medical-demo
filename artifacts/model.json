@@ -1,0 +1,36 @@
+{
+  "format_version": 1,
+  "backend": "stdlib",
+  "model_type": "rgb_centroid",
+  "class_names": [
+    "normal",
+    "disease"
+  ],
+  "image_size": [
+    224,
+    224
+  ],
+  "feature_names": [
+    "mean_red",
+    "mean_green",
+    "mean_blue",
+    "brightness_std"
+  ],
+  "centroids": {
+    "0": [
+      0.19788466167717086,
+      0.06264279149159664,
+      0.05235086221988795,
+      0.09333222245762555
+    ],
+    "1": [
+      0.20019230348389355,
+      0.06564250700280112,
+      0.0539281337535014,
+      0.0983384666122051
+    ]
+  },
+  "epochs": 5,
+  "num_train_samples": 28,
+  "warning": "Synthetic-data demo model; not for medical diagnosis."
+}
