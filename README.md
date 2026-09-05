@@ -57,7 +57,7 @@ D:\python\python.exe web/manage.py migrate
 D:\python\python.exe web/manage.py runserver 127.0.0.1:8000
 ```
 
-浏览器访问 <http://127.0.0.1:8000/>；默认读取 `artifacts/idrid_resnet_model.json`，上传接口会调用 `artifacts/idrid_resnet_best.pt`，历史记录位于 SQLite 的 `web/demo.sqlite3`。
+浏览器访问 <http://127.0.0.1:8000/>；默认读取 `artifacts/idrid_resnet_model.json`，上传接口会调用部署用的 `artifacts/idrid_resnet_best_fp16.pt`，历史记录位于 SQLite 的 `web/demo.sqlite3`。
 
 ## 发布到 GitHub 和公网
 
