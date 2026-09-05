@@ -1,0 +1,9 @@
+image_path,label,class_name
+images/normal_0000.png,0,normal
+images/normal_0001.png,0,normal
+images/normal_0002.png,0,normal
+images/normal_0003.png,0,normal
+images/disease_0000.png,1,disease
+images/disease_0001.png,1,disease
+images/disease_0002.png,1,disease
+images/disease_0003.png,1,disease
