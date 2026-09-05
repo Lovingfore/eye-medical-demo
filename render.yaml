@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: eye-medical-demo
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements-render.txt && python web/manage.py migrate --noinput && python web/manage.py collectstatic --noinput
+    startCommand: gunicorn --chdir web eye_demo.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
