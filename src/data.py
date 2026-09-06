@@ -28,6 +28,7 @@ except ImportError:  # Support ``python src/data.py`` style imports.
 
 
 def _require_image_dependencies() -> None:
+    """在真正处理图像前给出清晰的依赖缺失提示。"""
     if np is None or Image is None:
         raise ImportError(
             "Image preprocessing requires NumPy and Pillow. "
@@ -74,6 +75,7 @@ def load_manifest(manifest_path: str | Path) -> list[dict[str, str]]:
         reader = csv.DictReader(handle)
         if reader.fieldnames is None:
             raise ValueError(f"Manifest has no header: {path}")
+        # 只强制检查训练/评价所需字段；像 original_grade 等额外元数据会保留。
         required = {"image_path", "label", "class_name"}
         missing = required.difference(reader.fieldnames)
         if missing:
@@ -93,6 +95,7 @@ def preprocess_image(
 
     _require_image_dependencies()
     with Image.open(image_path) as image:  # type: ignore[union-attr]
+        # RGB 转换统一通道数；缩放和 [0,1] 归一化让不同尺寸图像进入同一输入接口。
         image = image.convert("RGB")
         image = image.resize(tuple(image_size), Image.Resampling.BILINEAR)
         array = np.asarray(image, dtype=np.float32) / 255.0
@@ -100,6 +103,7 @@ def preprocess_image(
     # clearer error if a non-standard Pillow backend ever violates that.
     if array.ndim != 3 or array.shape[2] != 3:
         raise ValueError(f"Expected RGB image array, got shape {array.shape}")
+    # PyTorch 常用 CHW 布局，而 Pillow/NumPy 读取的是 HWC。
     return np.transpose(array, (2, 0, 1)).astype(np.float32, copy=False)
 
 

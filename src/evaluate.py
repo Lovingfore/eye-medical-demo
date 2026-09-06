@@ -17,6 +17,11 @@ except ImportError:  # pragma: no cover - supports ``python src/evaluate.py``
 
 
 def _binary_metrics(y_true: list[int], y_pred: list[int], scores: list[float]) -> dict[str, object]:
+    """计算二分类评价指标，并统一输出格式。
+
+    优先使用 scikit-learn；没有安装 sklearn 时使用下方的等价公式，保证
+    最小部署环境仍能完成评价。混淆矩阵固定为 [[TN, FP], [FN, TP]]。
+    """
     # Prefer sklearn's well-tested implementations in a full environment,
     # while keeping the exact same output contract for the minimal demo.
     try:
@@ -29,6 +34,7 @@ def _binary_metrics(y_true: list[int], y_pred: list[int], scores: list[float]) -
             roc_auc_score,
         )
 
+        # 显式指定 labels，避免某个小数据子集缺少类别时矩阵尺寸变化。
         matrix = confusion_matrix(y_true, y_pred, labels=[0, 1]).tolist()
         try:
             auc = 0.5 if len(set(y_true)) < 2 else float(roc_auc_score(y_true, scores))
@@ -61,7 +67,7 @@ def _binary_metrics(y_true: list[int], y_pred: list[int], scores: list[float]) -
     recall = tp / (tp + fn) if tp + fn else 0.0
     specificity = tn / (tn + fp) if tn + fp else 0.0
     f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
-    # Tie-aware rank AUC. A single-class set has no defined AUC; return 0.5.
+    # 无 sklearn 时使用带并列处理的秩 AUC；单类别数据没有定义 AUC，返回 0.5。
     positives = [score for score, label in zip(scores, y_true) if label == 1]
     negatives = [score for score, label in zip(scores, y_true) if label == 0]
     if not positives or not negatives:
@@ -84,6 +90,7 @@ def _binary_metrics(y_true: list[int], y_pred: list[int], scores: list[float]) -
 
 
 def evaluate_model(artifact_path: str | Path, manifest_path: str | Path, output_dir: str | Path) -> dict[str, object]:
+    """逐图推理测试清单，写出指标、预测明细和混淆矩阵文件。"""
     artifact = load_model(artifact_path)
     manifest = Path(manifest_path)
     y_true: list[int] = []
@@ -95,6 +102,7 @@ def evaluate_model(artifact_path: str | Path, manifest_path: str | Path, output_
         y_true.append(int(row["label"]))
         y_pred.append(int(result["label"]))
         scores.append(float(result["probabilities"]["disease"]))
+        # 保留逐图概率，后续可以筛选假阳性、假阴性和低置信度边界样本。
         predictions.append({"image_path": row["image_path"], "true_label": int(row["label"]), **result})
     metrics = _binary_metrics(y_true, y_pred, scores)
     metrics["mean_inference_ms"] = sum(float(item["inference_ms"]) for item in predictions) / max(len(predictions), 1)
@@ -110,7 +118,7 @@ def evaluate_model(artifact_path: str | Path, manifest_path: str | Path, output_
 
 
 def _save_confusion_matrix_png(matrix: list[list[int]], path: Path) -> None:
-    """Save a dependency-light 2x2 heatmap for reports and slides."""
+    """保存不依赖 matplotlib 的 2x2 混淆矩阵热图，便于报告和演示使用。"""
     width = height = 260
     image = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(image)

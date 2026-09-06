@@ -9,6 +9,7 @@ from .torch_modeling import train_resnet_model
 
 
 def main(argv: list[str] | None = None) -> int:
+    """训练命令行入口；参数最终传给 src.torch_modeling.train_resnet_model。"""
     parser = argparse.ArgumentParser(description="Train ResNet-18 on IDRiD binary labels")
     parser.add_argument("--train", required=True)
     parser.add_argument("--val", required=True)

@@ -61,7 +61,7 @@ def _rows(manifest_path: str | Path) -> list[dict[str, str]]:
 
 
 def _feature(image_path: str | Path) -> list[float]:
-    """Extract four stable, interpretable RGB features without NumPy."""
+    """提取四个简单 RGB 特征，作为无 PyTorch 环境的轻量回退模型输入。"""
     with Image.open(image_path) as image:
         image = image.convert("RGB").resize((32, 32))
         channels = image.split()
@@ -98,7 +98,8 @@ def train_model(
     the train split is used for fitting. Validation/test data are intentionally
     not consulted for model selection.
     """
-    del seed  # The centroid fit is deterministic by construction.
+    # 质心模型没有随机优化过程，因此 seed 只为保持与训练接口兼容。
+    del seed
     train_path = split_paths.get("train")
     if train_path is None:
         raise ValueError("split_paths must contain a train manifest")
@@ -109,6 +110,7 @@ def train_model(
         if label not in grouped:
             raise ValueError(f"Unsupported binary label: {label}")
         grouped[label].append(_feature(_resolve_image(train_manifest, row["image_path"])))
+    # 每一类的质心就是该类训练样本特征的均值，预测时比较欧氏距离。
     centroids = {str(label): _centroid(values) for label, values in grouped.items()}
     artifact = {
         "format_version": 1,
@@ -129,6 +131,7 @@ def train_model(
 
 
 def load_model(artifact_path: str | Path) -> dict[str, object]:
+    """读取 JSON artifact，并附加来源路径供相对 checkpoint 解析使用。"""
     if isinstance(artifact_path, Mapping):
         return dict(artifact_path)
     path = _as_path(artifact_path)
@@ -140,8 +143,13 @@ def load_model(artifact_path: str | Path) -> dict[str, object]:
 
 
 def predict_image(image_path: str | Path, model: str | Path | Mapping[str, object]) -> dict[str, object]:
-    """Return the stable schema consumed by CLI and Django."""
+    """返回 CLI 和 Django 共用的预测结构。
+
+    当前 IDRiD 配置会路由到 PyTorch/ResNet-18；轻量 demo artifact 才会走
+    RGB 质心回退模型。两条路径都返回类别、置信度、概率和耗时。
+    """
     artifact = load_model(model) if not isinstance(model, Mapping) else dict(model)
+    # 用 artifact 元数据路由后端，Web 层不需要知道具体模型实现。
     if artifact.get("backend") == "pytorch" or artifact.get("model_type") == "resnet18":
         try:
             from .torch_modeling import predict_torch_image
@@ -152,8 +160,7 @@ def predict_image(image_path: str | Path, model: str | Path | Mapping[str, objec
     features = _feature(image_path)
     centroids = artifact["centroids"]
     distances = {label: _distance(features, list(centroids[str(label)])) for label in (0, 1)}
-    # Softmax over negative distances gives calibrated-looking probabilities
-    # while remaining deterministic and dependency free.
+    # 对负距离做 softmax，得到依赖无关的相对概率；它不是医学意义上的校准概率。
     scores = {label: math.exp(-min(distances[label], 50.0)) for label in (0, 1)}
     total = scores[0] + scores[1]
     probabilities = {CLASS_NAMES[label]: scores[label] / total for label in (0, 1)}
