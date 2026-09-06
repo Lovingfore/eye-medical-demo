@@ -26,6 +26,7 @@ def _error(request: HttpRequest, message: str) -> HttpResponse:
 
 
 def _validate_upload(upload: UploadedFile | None) -> str | None:
+    """在写入磁盘和调用模型前校验上传对象。"""
     if upload is None:
         return "请选择 JPG/PNG 图像。"
     suffix = Path(upload.name).suffix.lower()
@@ -37,6 +38,7 @@ def _validate_upload(upload: UploadedFile | None) -> str | None:
 
 
 def index(request: HttpRequest) -> HttpResponse:
+    """首页：GET 展示上传表单，POST 保存图像并执行一次预测。"""
     if request.method != "POST":
         return render(request, "predictor/index.html")
     upload = request.FILES.get("image")
@@ -47,10 +49,12 @@ def index(request: HttpRequest) -> HttpResponse:
     upload_dir = Path(settings.EYE_DEMO_UPLOAD_DIR)
     upload_dir.mkdir(parents=True, exist_ok=True)
     destination = upload_dir / f"{uuid.uuid4().hex}{Path(upload.name).suffix.lower()}"
+    # 分块写入，避免把上传文件一次性全部放入内存；大小上限由校验控制。
     with destination.open("wb") as handle:
         for chunk in upload.chunks():
             handle.write(chunk)
     try:
+        # settings.EYE_DEMO_ARTIFACT 默认指向训练好的 ResNet JSON 配置。
         result = predict_image(destination, settings.EYE_DEMO_ARTIFACT)
     except FileNotFoundError:
         return _error(request, "模型权重不存在，请先运行 IDRiD ResNet-18 训练命令。")
@@ -67,6 +71,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 
 def result(request: HttpRequest) -> HttpResponse:
+    """展示最近一条预测记录；没有记录时回到上传页面并提示用户。"""
     latest = Prediction.objects.first()
     if latest is None:
         return render(request, "predictor/index.html", {"error": "暂无预测记录，请先上传图像。"})
@@ -80,4 +85,5 @@ def result(request: HttpRequest) -> HttpResponse:
 
 
 def history(request: HttpRequest) -> HttpResponse:
+    """展示最近 20 条预测历史，按模型中的 created_at 倒序排列。"""
     return render(request, "predictor/history.html", {"records": Prediction.objects.all()[:20]})
