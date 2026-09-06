@@ -109,7 +109,7 @@ cd idrid-diabetic-retinopathy-classifier
 powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1
 ```
 
-首次运行需要联网安装依赖，且设备需要安装 Python 3.10 或更高版本（推荐 Python 3.11）。模型权重已经随仓库提交，不需要下载 IDRiD 原始训练数据即可进行 Web 推理。
+首次运行需要联网安装依赖，且设备需要安装 Python 3.10 或更高版本（推荐 Python 3.11）。模型权重已经随仓库提交，不需要下载 IDRiD 原始训练数据即可进行 Web 推理。`-SkipInstall` 只适用于 `.venv` 已经存在且依赖已安装的情况；如果尚未创建 `.venv`，脚本会提示先运行一次默认命令。
 
 常用参数：
 
@@ -124,7 +124,7 @@ powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1 -SkipBrowser
 powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1 -BindAddress 0.0.0.0 -Port 8000 -SkipBrowser
 ```
 
-默认服务地址为 <http://127.0.0.1:8000/>。脚本启动的是本地 Django 开发服务器，按 `Ctrl+C` 停止；公网部署仍请使用 Render 配置。
+默认服务地址为 <http://127.0.0.1:8000/>，脚本默认会在服务启动后自动打开浏览器。脚本启动的是本地 Django 开发服务器，按 `Ctrl+C` 停止；公网部署仍请使用 Render 配置。使用 `-BindAddress 0.0.0.0` 时，其他设备应访问运行服务电脑的局域网 IP（例如 `http://192.168.1.10:8000/`），并在 Windows 防火墙中放行对应端口。
 
 ### 3. 运行测试与配置检查
 
@@ -225,3 +225,4 @@ gunicorn --chdir web eye_demo.wsgi:application --bind 0.0.0.0:$PORT --workers 1 
 - 为生产环境接入持久化数据库、对象存储、访问控制、日志审计和 HTTPS。
 
 **重要：本系统输出仅供课程/科研项目使用，不构成医疗诊断或医疗建议。**
+
