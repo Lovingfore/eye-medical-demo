@@ -9,6 +9,8 @@ from pathlib import Path
 import pyarrow.parquet as pq
 
 
+# IDRiD 原始标签是 0~4 级。本项目为了演示二分类流程，将 0 级保留为
+# normal，将 1~4 级统一合并为 disease；原始等级仍写入 CSV，便于追溯。
 LABEL_NAMES = {
     0: "normal",
     1: "disease",
@@ -19,6 +21,11 @@ LABEL_NAMES = {
 
 
 def _export_split(parquet_path: Path, output_root: Path, split: str) -> dict[str, int]:
+    """把一个 parquet 划分导出成独立图像文件和 CSV manifest。
+
+    parquet 中的 image 字段包含原始文件名和二进制内容。导出成普通 JPG
+    后，后续检查、划分、训练和 Web 推理都只依赖 manifest 中的相对路径。
+    """
     table = pq.read_table(parquet_path).to_pydict()
     image_dir = output_root / "images" / split
     image_dir.mkdir(parents=True, exist_ok=True)
@@ -29,6 +36,8 @@ def _export_split(parquet_path: Path, output_root: Path, split: str) -> dict[str
         class_name = LABEL_NAMES[original_label]
         filename = Path(item.get("path") or f"{split}_{len(rows):04d}.jpg").name
         destination = image_dir / filename
+        # 这里只做格式/路径转换，不在此处删除低质量医学图像；质量筛选需要
+        # 额外的图像质量指标或人工复核，目前项目尚未实现。
         destination.write_bytes(item["bytes"])
         rows.append(
             {
@@ -48,6 +57,7 @@ def _export_split(parquet_path: Path, output_root: Path, split: str) -> dict[str
 
 
 def prepare(dataset_dir: str | Path, output_dir: str | Path | None = None) -> dict[str, object]:
+    """准备训练集和官方测试集，并返回生成文件的位置与类别统计。"""
     dataset = Path(dataset_dir)
     destination = Path(output_dir) if output_dir else dataset / "processed"
     destination.mkdir(parents=True, exist_ok=True)

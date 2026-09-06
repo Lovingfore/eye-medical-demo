@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[1]
+# 生产环境必须通过环境变量覆盖默认密钥；默认值只方便本地开发。
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "eye-demo-local-only")
 DEBUG = os.environ.get("DJANGO_DEBUG", "true").lower() in {"1", "true", "yes"}
 ALLOWED_HOSTS = [
@@ -64,4 +65,5 @@ _trained_artifact = BASE_DIR.parent / "artifacts" / "idrid_resnet_model.json"
 _demo_artifact = BASE_DIR.parent / "artifacts" / "model.json"
 EYE_DEMO_ARTIFACT = Path(os.environ.get("EYE_DEMO_ARTIFACT", str(_trained_artifact if _trained_artifact.exists() else _demo_artifact)))
 EYE_DEMO_UPLOAD_DIR = Path(os.environ.get("EYE_DEMO_UPLOAD_DIR", str(BASE_DIR.parent / "artifacts" / "uploads")))
+# Django 的内存上传阈值与视图中的 8 MB 业务限制保持一致。
 FILE_UPLOAD_MAX_MEMORY_SIZE = 8 * 1024 * 1024

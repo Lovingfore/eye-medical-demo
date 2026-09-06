@@ -31,12 +31,18 @@ except ImportError:  # pragma: no cover
 
 CLASS_NAMES = ["normal", "disease"]
 IMAGE_SIZE = (224, 224)
+# 采用 ImageNet 的通道均值和标准差，是因为 backbone 使用了 ImageNet 预训练权重。
+# 训练和线上推理必须使用同一组值，否则输入分布会发生偏移。
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
 
 
 def build_resnet18(*, pretrained: bool = True, num_classes: int = 2) -> nn.Module:
-    """Build ResNet-18 and replace its classifier with a binary head."""
+    """构建 ResNet-18，并把 ImageNet 分类头替换为本项目的分类头。
+
+    ``pretrained=True`` 时复用 ImageNet 特征提取能力；最后的全连接层输入
+    维度保持不变，输出维度改成 normal/disease 两类。
+    """
 
     weights = ResNet18_Weights.DEFAULT if pretrained else None
     model = resnet18(weights=weights)
@@ -61,18 +67,26 @@ class ManifestImageDataset(Dataset[tuple[torch.Tensor, int]]):
         row = self.rows[index]
         image_path = resolve_image_path(row["image_path"], self.manifest_path)
         with Image.open(image_path) as image:
+            # Dataset 在训练和验证阶段共用；差异由 _make_transform(train=...) 控制。
             image = image.convert("RGB")
             tensor = self.transform(image)
         return tensor, int(row["label"])
 
 
 def _make_transform(*, train: bool) -> transforms.Compose:
+    """返回训练或评估变换。
+
+    训练增强只作用于训练集，避免验证/测试结果受随机变换影响。验证和线上
+    推理使用确定性的 CenterCrop，保证评估与 Web 端输入处理一致。
+    """
     if train:
         return transforms.Compose(
             [
                 transforms.Resize(256),
+                # 在 256 边长上随机裁剪 224，模拟轻微构图变化。
                 transforms.RandomResizedCrop(224, scale=(0.80, 1.0)),
                 transforms.RandomHorizontalFlip(p=0.5),
+                # 轻微改变亮度/对比度/饱和度，降低设备和曝光差异的影响。
                 transforms.ColorJitter(brightness=0.15, contrast=0.15, saturation=0.10),
                 transforms.ToTensor(),
                 transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD),
@@ -106,6 +120,11 @@ def _select_device(value: str) -> torch.device:
 
 
 def _metrics(y_true: list[int], y_pred: list[int], probabilities: list[float]) -> dict[str, float]:
+    """计算训练/验证阶段的二分类指标。
+
+    disease 的概率用于 ROC-AUC；阈值分类结果由 logits.argmax 得到。训练时
+    记录这些指标用于观察收敛，但模型选择仍以验证集 F1 为主。
+    """
     from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, roc_auc_score
 
     tn = sum(a == 0 and b == 0 for a, b in zip(y_true, y_pred))
@@ -127,6 +146,11 @@ def _run_epoch(
     optimizer: torch.optim.Optimizer | None,
     device: torch.device,
 ) -> dict[str, Any]:
+    """执行一个训练或验证 epoch。
+
+    ``optimizer`` 不为空代表训练：启用梯度、反向传播和参数更新；为空代表
+    验证：关闭梯度并只统计损失与指标。
+    """
     training = optimizer is not None
     model.train(training)
     total_loss = 0.0
@@ -143,6 +167,7 @@ def _run_epoch(
             logits = model(images)
             loss = criterion(logits, labels)
             if training:
+                # 典型的 PyTorch 更新顺序：清梯度 -> 前向损失 -> 反向 -> 更新。
                 loss.backward()
                 optimizer.step()
             batch_size = labels.size(0)
@@ -163,6 +188,11 @@ def save_torch_artifact(
     best_epoch: int,
     best_val_f1: float,
 ) -> dict[str, Any]:
+    """保存可部署 JSON 配置，并记录 checkpoint 的相对路径。
+
+    使用相对路径是为了让同一份仓库可以从 Windows 本地训练目录迁移到
+    Linux/Render；真正的权重文件仍由 checkpoint_path 指向。
+    """
     destination = Path(artifact_path)
     checkpoint = Path(checkpoint_path)
     # Store a repository-relative path so an artifact trained on Windows also
@@ -209,6 +239,11 @@ def train_resnet_model(
     seed: int = 42,
     device: str = "auto",
 ) -> dict[str, Any]:
+    """训练 ResNet-18 并返回训练摘要。
+
+    当前实现是单次固定超参数实验，不包含网格搜索、贝叶斯优化或交叉验证。
+    ``pretrained`` 可以关闭，便于做随机初始化对照实验。
+    """
     if epochs < 1 or batch_size < 1:
         raise ValueError("epochs and batch_size must be positive")
     _set_seed(seed)
@@ -231,9 +266,11 @@ def train_resnet_model(
     )
     labels = torch.tensor([int(row["label"]) for row in train_data.rows], dtype=torch.long)
     counts = torch.bincount(labels, minlength=2).float()
+    # 类别权重 w_k=N/(K*n_k)：样本少的 normal 类获得更高损失权重，缓解不均衡。
     class_weights = labels.numel() / (2.0 * counts.clamp(min=1.0))
     model = build_resnet18(pretrained=pretrained, num_classes=2).to(target_device)
     criterion = nn.CrossEntropyLoss(weight=class_weights.to(target_device))
+    # AdamW 将权重衰减与 Adam 的梯度更新解耦，适合小样本迁移学习的稳定微调。
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
     checkpoint = Path(checkpoint_path)
@@ -252,6 +289,7 @@ def train_resnet_model(
         if is_better:
             best_f1 = score
             best_epoch = epoch
+            # 只保存验证集 F1 最好的状态，避免最后一个 epoch 过拟合的权重被部署。
             torch.save(
                 {
                     "model_state": model.state_dict(),
@@ -304,6 +342,7 @@ def train_resnet_model(
 
 
 def _checkpoint_for(artifact: dict[str, Any]) -> Path:
+    """将模型 JSON 中的相对 checkpoint 路径解析为本地绝对路径。"""
     path = Path(str(artifact["checkpoint_path"]))
     if path.is_absolute():
         return path
@@ -317,6 +356,7 @@ def _checkpoint_for(artifact: dict[str, Any]) -> Path:
 
 @lru_cache(maxsize=4)
 def _load_cached_model(checkpoint_path: str, device_name: str) -> tuple[nn.Module, torch.device]:
+    """加载并缓存推理模型，避免每次上传都重复构建和读取权重。"""
     device = torch.device(device_name)
     model = build_resnet18(pretrained=False, num_classes=2)
     state = torch.load(checkpoint_path, map_location=device, weights_only=False)
@@ -332,6 +372,7 @@ def predict_torch_image(
     *,
     device: str = "auto",
 ) -> dict[str, Any]:
+    """对单张图像执行与验证阶段一致的预处理和 ResNet 推理。"""
     target_device = _select_device(device)
     model, target_device = _load_cached_model(str(_checkpoint_for(artifact).resolve()), str(target_device))
     transform = _make_transform(train=False)

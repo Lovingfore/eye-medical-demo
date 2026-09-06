@@ -22,6 +22,11 @@ def _split_counts(
     val_ratio: float,
     test_ratio: float,
 ) -> tuple[int, int, int]:
+    """按最大余数法把总样本数转换成整数划分数量。
+
+    直接相乘会产生小数；先取整数部分，再把剩余样本分配给小数部分最大
+    的划分，从而使总数保持不变。
+    """
     ratios = (train_ratio, val_ratio, test_ratio)
     raw = [total * ratio for ratio in ratios]
     counts = [int(value) for value in raw]
@@ -40,7 +45,7 @@ def _class_split_counts(
     total: int,
     tie_order: tuple[int, int, int] = (1, 2, 0),
 ) -> tuple[int, int, int]:
-    """Allocate one class across global split sizes with largest remainders."""
+    """按全局划分比例分配一个类别，尽量保持 train/val/test 的类别比例。"""
     if total <= 0:
         return (0, 0, 0)
     raw = [class_total * count / total for count in split_counts]
@@ -62,7 +67,11 @@ def make_splits(
     test_ratio: float = 0.15,
     seed: int = 42,
 ) -> dict[str, Any]:
-    """Shuffle rows once with ``seed`` and write disjoint CSV partitions."""
+    """用固定随机种子生成互不重叠的 train/val/test CSV。
+
+    这里是按图像标签分层，而不是按患者编号分组。若数据包含患者元数据，
+    正式研究应改成患者级划分，以避免同一患者图像跨集合造成数据泄漏。
+    """
 
     if any(ratio < 0 for ratio in (train_ratio, val_ratio, test_ratio)):
         raise ValueError("Split ratios must be non-negative")
@@ -75,8 +84,7 @@ def make_splits(
         len(rows), train_ratio, val_ratio, test_ratio
     )
     split_counts = (train_count, val_count, test_count)
-    # Stratify by label so every sufficiently populated binary partition has
-    # both classes, keeping the smoke metrics meaningful and reproducible.
+    # 按二分类标签分组后分别打乱，保证每个划分尽量包含两个类别。
     grouped: dict[str, list[dict[str, str]]] = {}
     for row in rows:
         grouped.setdefault(row["label"], []).append(row)
@@ -107,9 +115,8 @@ def make_splits(
         portable_rows: list[dict[str, str]] = []
         for row in split_rows:
             portable = dict(row)
-            # Manifest image paths are dataset-root-relative.  Rebase each
-            # path against the split CSV so it remains independently usable
-            # when the split directory is moved or consumed by another stage.
+            # 原始 manifest 的路径相对数据集根目录；这里改写为相对 split CSV
+            # 的路径，使 train.csv/val.csv/test.csv 被单独移动后仍可使用。
             source = manifest.parent / row["image_path"]
             portable["image_path"] = os.path.relpath(source, destination).replace(os.sep, "/")
             portable_rows.append(portable)

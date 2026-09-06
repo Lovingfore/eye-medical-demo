@@ -20,6 +20,11 @@ except ImportError:  # pragma: no cover
 
 
 def _check_image(path: Path) -> str | None:
+    """检查文件是否能被 Pillow 验证并完整解码。
+
+    ``verify`` 主要检查文件结构；重新打开并 ``load`` 是为了实际读取像素，
+    避免只通过容器校验但在训练时才发现像素损坏。
+    """
     if Image is None:
         raise ImportError(
             "Dataset checks require Pillow. Install the demo requirements with "
@@ -54,10 +59,12 @@ def check_dataset(manifest_path: str | Path) -> dict[str, Any]:
         relative = row["image_path"]
         path = resolve_image_path(relative, manifest)
         if not path.exists():
+            # 缺失文件不会进入 valid_rows，也不会参与类别计数。
             missing_files.append(relative)
             continue
         error = _check_image(path)
         if error is not None:
+            # 这里的“清洗”仅指文件级完整性过滤，不代表医学质量筛选。
             corrupt_files.append(relative)
             continue
         class_counts[row["class_name"]] += 1
@@ -82,4 +89,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(main())
-
