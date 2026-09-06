@@ -1,4 +1,10 @@
-"""Create deterministic train/validation/test CSV splits."""
+"""生成确定性的 train/validation/test CSV 划分。
+
+# 【技术栈】Python csv、random 和 pathlib；使用固定 seed=42 保证同一 manifest
+# 可以复现实验划分，并按二分类标签做分层抽样。
+# 【数据集】默认接收 prepare_idrid.py 生成的 IDRiD 训练 manifest，也可接收格式
+# 相同的新数据。当前实现是图像级分层，正式研究应改为患者级划分以避免数据泄漏。
+"""
 
 from __future__ import annotations
 
@@ -67,6 +73,8 @@ def make_splits(
     test_ratio: float = 0.15,
     seed: int = 42,
 ) -> dict[str, Any]:
+    # 【数据划分】按 label 分层后生成互不重叠的 train/val/test 清单；训练只读取
+    # train，验证用于选最佳模型，独立 test 应留到最终评价阶段。
     """用固定随机种子生成互不重叠的 train/val/test CSV。
 
     这里是按图像标签分层，而不是按患者编号分组。若数据包含患者元数据，

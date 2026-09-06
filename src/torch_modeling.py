@@ -1,8 +1,15 @@
-"""ResNet-18 transfer-learning backend for the IDRiD classifier.
+"""PyTorch/ResNet-18 训练与推理实现。
 
-The public API deliberately mirrors ``src.modeling`` so evaluation and the
-Django upload flow can consume either the lightweight demo artifact or this
-real PyTorch checkpoint.
+本模块对应项目的真实训练路线：
+
+* 技术栈：Python、PyTorch、torchvision、Pillow、NumPy、scikit-learn；
+* 模型：ImageNet 预训练 ResNet-18，替换最后全连接层进行二分类迁移学习；
+* 数据集：公开 IDRiD B. Disease Grading。原始等级 0 映射为 normal，
+  等级 1~4 合并为 disease；
+* 输入：CSV manifest 中的 image_path、label、class_name 三个字段；
+* 输出：可部署的 JSON artifact 与 PyTorch checkpoint，供 CLI 和 Django Web 共用。
+
+公开数据集的原始图像不随仓库提交；本模块只读取已经整理好的本地 manifest。
 """
 
 from __future__ import annotations
@@ -31,6 +38,8 @@ except ImportError:  # pragma: no cover
 
 CLASS_NAMES = ["normal", "disease"]
 IMAGE_SIZE = (224, 224)
+# 【技术栈/输入标准】torchvision 负责图像变换，Pillow 负责读取 JPG/PNG，
+# PyTorch 张量采用 CHW 布局；224×224 是 ResNet-18 的统一输入尺寸。
 # 采用 ImageNet 的通道均值和标准差，是因为 backbone 使用了 ImageNet 预训练权重。
 # 训练和线上推理必须使用同一组值，否则输入分布会发生偏移。
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
@@ -38,6 +47,8 @@ IMAGENET_STD = (0.229, 0.224, 0.225)
 
 
 def build_resnet18(*, pretrained: bool = True, num_classes: int = 2) -> nn.Module:
+    # 【模型结构/迁移学习】加载 ImageNet 预训练 ResNet-18，保留卷积主干的
+    # 通用视觉特征，把原 ImageNet 分类头替换成 normal/disease 二分类头。
     """构建 ResNet-18，并把 ImageNet 分类头替换为本项目的分类头。
 
     ``pretrained=True`` 时复用 ImageNet 特征提取能力；最后的全连接层输入
@@ -51,6 +62,8 @@ def build_resnet18(*, pretrained: bool = True, num_classes: int = 2) -> nn.Modul
 
 
 class ManifestImageDataset(Dataset[tuple[torch.Tensor, int]]):
+    # 【数据集读取】Dataset 根据 CSV manifest 逐行读取 IDRiD（或格式兼容的新增数据），
+    # 将 image_path 解析成图片，将 label 转换为 PyTorch 的整数类别标签。
     def __init__(self, manifest_path: str | Path, *, train: bool) -> None:
         self.manifest_path = Path(manifest_path)
         self.rows = load_manifest(self.manifest_path)
@@ -74,6 +87,8 @@ class ManifestImageDataset(Dataset[tuple[torch.Tensor, int]]):
 
 
 def _make_transform(*, train: bool) -> transforms.Compose:
+    # 【图像预处理/数据增强】训练集使用随机裁剪、翻转和颜色扰动增加样本变化；
+    # 验证集、测试集和 Web 推理使用确定性 CenterCrop，保证评价和线上输入一致。
     """返回训练或评估变换。
 
     训练增强只作用于训练集，避免验证/测试结果受随机变换影响。验证和线上
@@ -120,6 +135,8 @@ def _select_device(value: str) -> torch.device:
 
 
 def _metrics(y_true: list[int], y_pred: list[int], probabilities: list[float]) -> dict[str, float]:
+    # 【多指标评价】训练/验证阶段同时统计 Accuracy、Precision、Recall、F1、
+    # Specificity 和 ROC-AUC；模型选择主要依据验证集 F1，避免只看单一准确率。
     """计算训练/验证阶段的二分类指标。
 
     disease 的概率用于 ROC-AUC；阈值分类结果由 logits.argmax 得到。训练时
@@ -146,6 +163,8 @@ def _run_epoch(
     optimizer: torch.optim.Optimizer | None,
     device: torch.device,
 ) -> dict[str, Any]:
+    # 【训练循环/验证循环】optimizer 不为空时执行训练模式（前向、损失、反向传播、
+    # 参数更新）；optimizer 为空时执行验证模式，只推理和统计指标，不更新权重。
     """执行一个训练或验证 epoch。
 
     ``optimizer`` 不为空代表训练：启用梯度、反向传播和参数更新；为空代表
@@ -269,8 +288,10 @@ def train_resnet_model(
     # 类别权重 w_k=N/(K*n_k)：样本少的 normal 类获得更高损失权重，缓解不均衡。
     class_weights = labels.numel() / (2.0 * counts.clamp(min=1.0))
     model = build_resnet18(pretrained=pretrained, num_classes=2).to(target_device)
+    # 【损失函数】带类别权重的交叉熵，类别权重 w_k=N/(K*n_k)，用于缓解
+    # normal 与 disease 样本数量不均衡对训练的影响。
     criterion = nn.CrossEntropyLoss(weight=class_weights.to(target_device))
-    # AdamW 将权重衰减与 Adam 的梯度更新解耦，适合小样本迁移学习的稳定微调。
+    # 【优化器】AdamW 将权重衰减与 Adam 的梯度更新解耦，适合小样本迁移学习的稳定微调。
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
     checkpoint = Path(checkpoint_path)
@@ -279,6 +300,8 @@ def train_resnet_model(
     best_f1 = -1.0
     best_epoch = 0
     for epoch in range(1, epochs + 1):
+        # 【每轮训练】先用训练集更新参数，再用未增强的验证集计算泛化指标；
+        # 只保存验证集 F1 最好的 checkpoint，降低最后几轮过拟合权重被部署的风险。
         train_metrics = _run_epoch(model, train_loader, criterion, optimizer, target_device)
         val_metrics = _run_epoch(model, val_loader, criterion, None, target_device)
         row = {"epoch": epoch, "train": train_metrics, "val": val_metrics}

@@ -1,4 +1,10 @@
-"""Dataset integrity checks for the demo manifest."""
+"""CSV manifest 与图像文件完整性检查。
+
+# 【技术栈】Python、CSV、pathlib、Pillow；通过 Pillow.verify/load 验证文件结构
+# 和像素是否可解码。这里的“清洗”仅是缺失/损坏文件过滤，不等同于医学质量筛选。
+# 【数据集适用范围】可检查 IDRiD 或任何遵循 image_path、label、class_name 格式的
+# 二分类眼底图像清单，新增数据进入训练前应先运行本模块。
+"""
 
 from __future__ import annotations
 
@@ -20,6 +26,8 @@ except ImportError:  # pragma: no cover
 
 
 def _check_image(path: Path) -> str | None:
+    # 【数据质量检查】检查图片容器与像素可读性，拦截缺失或损坏文件；当前尚未实现
+    # 模糊、曝光、视野完整性检测，也不会替代眼科专家对医学标注的复核。
     """检查文件是否能被 Pillow 验证并完整解码。
 
     ``verify`` 主要检查文件结构；重新打开并 ``load`` 是为了实际读取像素，

@@ -1,4 +1,9 @@
-"""Command-line entry point for fitting the demo model."""
+"""内置合成数据演示模型的训练入口。
+
+# 【技术栈】Python argparse/JSON + src.modeling 的 Pillow RGB 特征和质心分类器。
+# 【数据集】默认配合 src.generate_demo_data 生成的合成 normal/disease 小样本，
+# 仅用于界面与流程演示；正式 IDRiD 训练请使用 train_resnet.py。
+"""
 
 from __future__ import annotations
 

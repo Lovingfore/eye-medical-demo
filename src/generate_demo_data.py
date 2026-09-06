@@ -1,4 +1,4 @@
-"""Generate deterministic, synthetic fundus-like RGB images for the demo.
+"""生成确定性的合成眼底风格 RGB 图像，用于演示数据/训练/Web 流程。
 
 The generated images are intentionally artificial and are only suitable for
 demonstrating the data/training/UI pipeline. They are not medical data and
@@ -24,6 +24,10 @@ from .config import (
     IMAGE_SIZE,
     MANIFEST_NAME,
 )
+
+# 【数据集】本文件生成内置合成 normal/disease 小样本，不是公开医学数据集，也不用于
+# 训练结果或临床性能声明；真实模型训练使用 prepare_idrid.py 整理的 IDRiD 数据。
+# 【技术栈】Pillow、ImageDraw/ImageFilter 和 Python 标准库，用确定性随机种子生成图片。
 
 
 def _seed_for_sample(seed: int, label: int, index: int) -> int:

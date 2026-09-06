@@ -1,3 +1,11 @@
+"""Django Web 端配置。
+
+# 【技术栈】Django 5 负责 Web 路由和请求处理，WhiteNoise 提供静态文件，SQLite
+# 保存预测历史，src.modeling 负责调用 PyTorch/ResNet-18 或回退模型。
+# 【模型/数据集】线上推理默认加载 artifacts/idrid_resnet_model.json，它引用
+# IDRiD 训练得到的 artifacts/idrid_resnet_best_fp16.pt；Web 上传图片不是训练数据。
+"""
+
 from __future__ import annotations
 
 import os

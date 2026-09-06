@@ -99,6 +99,33 @@ python web/manage.py runserver 127.0.0.1:8000
 
 打开 <http://127.0.0.1:8000/>，上传一张 JPG/PNG 图像即可查看预测结果。默认模型配置为 `artifacts/idrid_resnet_model.json`，其中引用部署用的 FP16 权重。
 
+### Windows 跨设备一键部署
+
+在另一台 Windows 设备上克隆仓库后，可以直接运行根目录下的 [`setup_windows.ps1`](setup_windows.ps1)。脚本会自动创建或复用 `.venv`、安装 CPU 推理依赖、检查模型文件、执行 Django 数据库迁移和配置检查，然后启动 Web 服务。
+
+```powershell
+git clone https://github.com/Lovingfore/idrid-diabetic-retinopathy-classifier.git
+cd idrid-diabetic-retinopathy-classifier
+powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1
+```
+
+首次运行需要联网安装依赖，且设备需要安装 Python 3.10 或更高版本（推荐 Python 3.11）。模型权重已经随仓库提交，不需要下载 IDRiD 原始训练数据即可进行 Web 推理。
+
+常用参数：
+
+```powershell
+# 已经安装过依赖时跳过 pip 安装
+powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1 -SkipInstall
+
+# 不自动打开浏览器
+powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1 -SkipBrowser
+
+# 允许局域网其他设备访问（还需要配置 Windows 防火墙）
+powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1 -BindAddress 0.0.0.0 -Port 8000 -SkipBrowser
+```
+
+默认服务地址为 <http://127.0.0.1:8000/>。脚本启动的是本地 Django 开发服务器，按 `Ctrl+C` 停止；公网部署仍请使用 Render 配置。
+
 ### 3. 运行测试与配置检查
 
 ```powershell

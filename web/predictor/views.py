@@ -1,3 +1,10 @@
+"""Django 上传、推理和历史记录视图。
+
+# 【技术栈】Django HttpRequest/HttpResponse + Pillow/PyTorch（通过 src.modeling
+# 统一接口）+ SQLite ORM。流程是上传校验 -> 临时保存 -> 模型推理 -> 保存结果 ->
+# 渲染结果页；这里不执行训练，也不修改训练 manifest。
+"""
+
 from __future__ import annotations
 
 import sys
@@ -26,6 +33,7 @@ def _error(request: HttpRequest, message: str) -> HttpResponse:
 
 
 def _validate_upload(upload: UploadedFile | None) -> str | None:
+    # 【输入校验】限制 JPG/JPEG/PNG 扩展名和 8 MB 大小，减少无效文件进入模型。
     """在写入磁盘和调用模型前校验上传对象。"""
     if upload is None:
         return "请选择 JPG/PNG 图像。"
@@ -38,6 +46,8 @@ def _validate_upload(upload: UploadedFile | None) -> str | None:
 
 
 def index(request: HttpRequest) -> HttpResponse:
+    # 【Web 推理流程】Django 接收眼底图像，调用 settings.EYE_DEMO_ARTIFACT 指向的
+    # 已训练 artifact，返回 normal/disease 概率、置信度和推理耗时。
     """首页：GET 展示上传表单，POST 保存图像并执行一次预测。"""
     if request.method != "POST":
         return render(request, "predictor/index.html")

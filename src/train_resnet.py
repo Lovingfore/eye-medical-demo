@@ -1,4 +1,10 @@
-"""CLI for IDRiD ResNet-18 transfer-learning training."""
+"""IDRiD ResNet-18 迁移学习训练命令行入口。
+
+# 【技术栈】Python argparse/JSON + src.torch_modeling（PyTorch、torchvision、
+# Pillow、NumPy、scikit-learn）。本文件只负责读取命令行参数，具体数据加载、
+# 预处理、损失函数、优化器和 checkpoint 保存均在 torch_modeling.py 实现。
+# 【数据集】默认输入 IDRiD 二分类 manifest；新增数据需先转换成相同 CSV 格式。
+"""
 
 from __future__ import annotations
 

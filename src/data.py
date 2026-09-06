@@ -1,4 +1,9 @@
-"""Shared image loading and preprocessing utilities.
+"""共享的数据读取与基础图像预处理工具。
+
+# 【技术栈】Pillow 读取并转换 RGB，NumPy 负责数组和 [0,1] 归一化，CSV manifest
+# 记录图片路径与标签；这些工具被训练、命令行预测和 Django 上传流程共同使用。
+# 【数据集】不绑定某个具体数据集，只要求清单包含 image_path、label、class_name，
+# 因此既能服务 IDRiD，也能服务按同一规范整理的新数据。
 
 The command-line trainer and the Django predictor both use this module so that
 the online path cannot silently diverge from the training preprocessing.  A

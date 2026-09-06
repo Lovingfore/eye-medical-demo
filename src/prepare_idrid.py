@@ -1,4 +1,10 @@
-"""Convert the public IDRiD parquet mirror into portable JPG manifests."""
+"""将公开 IDRiD parquet 镜像转换为项目统一的 JPG + CSV manifest。
+
+# 【数据集】本项目使用 IDRiD B. Disease Grading（Indian Diabetic Retinopathy
+# Image Dataset）。原始标签为 0~4 级，本项目的二分类规则是 0=normal、1~4=disease。
+# 【技术栈】Python 标准库 csv/pathlib + PyArrow parquet 读取；本脚本不做医学质量评分，
+# 只负责二进制图像导出、路径整理和标签映射。
+"""
 
 from __future__ import annotations
 

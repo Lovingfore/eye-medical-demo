@@ -1,4 +1,8 @@
-"""Command-line single-image prediction."""
+"""单张眼底图像命令行预测入口。
+
+# 【技术栈】Python argparse/JSON + src.modeling 统一推理接口；根据 artifact 的
+# backend 字段自动选择 PyTorch/ResNet-18 或无依赖 RGB 质心回退模型。
+"""
 
 from __future__ import annotations
 

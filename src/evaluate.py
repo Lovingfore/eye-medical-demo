@@ -1,4 +1,10 @@
-"""Metrics and command-line evaluation for a saved demo model."""
+"""保存模型的命令行评价与误判明细生成。
+
+# 【技术栈】Python、Pillow、CSV/JSON；优先使用 scikit-learn 计算指标，并用
+# Pillow 绘制无需 matplotlib 的混淆矩阵 PNG。
+# 【评价数据】可以评价 IDRiD 官方测试集、扩增数据的独立测试集或其他兼容 manifest；
+# 测试清单不参与训练和最佳 checkpoint 选择。
+"""
 
 from __future__ import annotations
 
@@ -17,6 +23,8 @@ except ImportError:  # pragma: no cover - supports ``python src/evaluate.py``
 
 
 def _binary_metrics(y_true: list[int], y_pred: list[int], scores: list[float]) -> dict[str, object]:
+    # 【多指标评价】同时输出 Accuracy、Precision、Recall、F1-score、Specificity、
+    # ROC-AUC、混淆矩阵和样本数，便于从不同角度观察误报与漏报。
     """计算二分类评价指标，并统一输出格式。
 
     优先使用 scikit-learn；没有安装 sklearn 时使用下方的等价公式，保证
@@ -90,6 +98,8 @@ def _binary_metrics(y_true: list[int], y_pred: list[int], scores: list[float]) -
 
 
 def evaluate_model(artifact_path: str | Path, manifest_path: str | Path, output_dir: str | Path) -> dict[str, object]:
+    # 【逐图评估】加载 JSON artifact 指向的模型，对测试 manifest 逐张推理，保留
+    # 每张图的概率和真实标签，从而可以进一步筛选假阳性、假阴性和低置信度样本。
     """逐图推理测试清单，写出指标、预测明细和混淆矩阵文件。"""
     artifact = load_model(artifact_path)
     manifest = Path(manifest_path)

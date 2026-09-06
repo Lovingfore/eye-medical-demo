@@ -1,4 +1,9 @@
-"""Small deterministic image classifier used by the demo.
+"""轻量 RGB 质心回退分类器与统一推理接口。
+
+# 【技术栈】Python 标准库 + Pillow/ImageStat；该实现不依赖 PyTorch，主要用于
+# 合成小样本流程演示和极简环境回退，不代表真实医学模型。
+# 【数据集】默认使用 data/demo 中的内置合成 normal/disease 图像；当 artifact
+# 标记 backend=pytorch 或 model_type=resnet18 时，统一接口会转发到真实 IDRiD 模型。
 
 The preferred production backend is PyTorch/ResNet-18.  The demo deliberately
 keeps a dependency-free fallback so that the complete data -> model -> web
@@ -61,6 +66,8 @@ def _rows(manifest_path: str | Path) -> list[dict[str, str]]:
 
 
 def _feature(image_path: str | Path) -> list[float]:
+    # 【特征提取】把图片缩放到 32×32，计算 RGB 通道均值和亮度标准差，作为
+    # 无 PyTorch 回退模型的四维输入；真实 ResNet-18 不使用这些手工特征。
     """提取四个简单 RGB 特征，作为无 PyTorch 环境的轻量回退模型输入。"""
     with Image.open(image_path) as image:
         image = image.convert("RGB").resize((32, 32))
@@ -160,7 +167,8 @@ def predict_image(image_path: str | Path, model: str | Path | Mapping[str, objec
     features = _feature(image_path)
     centroids = artifact["centroids"]
     distances = {label: _distance(features, list(centroids[str(label)])) for label in (0, 1)}
-    # 对负距离做 softmax，得到依赖无关的相对概率；它不是医学意义上的校准概率。
+    # 【回退模型推理】比较输入特征与两类质心的欧氏距离，再对负距离做 softmax，
+    # 得到依赖无关的相对概率；它不是医学意义上的校准概率。
     scores = {label: math.exp(-min(distances[label], 50.0)) for label in (0, 1)}
     total = scores[0] + scores[1]
     probabilities = {CLASS_NAMES[label]: scores[label] / total for label in (0, 1)}
